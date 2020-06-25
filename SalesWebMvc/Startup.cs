@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc2.Data;
+using SalesWebMvc2.Services;
 
 namespace SalesWebMvc
 {
@@ -39,8 +40,9 @@ namespace SalesWebMvc
             services.AddDbContext<SalesWebMvc2Context>(options =>
                     options.UseMySql(Configuration.GetConnectionString("SalesWebMvc2Context"), builder =>
             builder.MigrationsAssembly("SalesWebMvc2")));
-            //esse codigo abaixo registra um serviço, no sistema de injeção de dependencia.
+            //esse codigo abaixo registra um serviço, podendo ser usado em outras classes.
             services.AddScoped<SeedingService>();
+            services.AddScoped<SellerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
