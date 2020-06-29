@@ -77,6 +77,22 @@ namespace SalesWebMvc2.Controllers
 
         }
 
+        //usa a mesma logica do delete metodo get, vai buscar pra ver se o vendedor existe
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
 
 
     }

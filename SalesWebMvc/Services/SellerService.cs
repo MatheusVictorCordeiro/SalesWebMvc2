@@ -1,4 +1,5 @@
-﻿using SalesWebMvc2.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesWebMvc2.Data;
 using SalesWebMvc2.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ namespace SalesWebMvc2.Services
 
         public Seller FindById(int id)
         {
-            return _context.Seller.FirstOrDefault(p => p.Id == id);
+            //o incluide irá dar join na tabela de department.isso é eagerLoading, ele carrega outros objetos associados
+            return _context.Seller.Include(obj=> obj.Department).FirstOrDefault(p => p.Id == id);
         }
 
         public void Insert(Seller obj)
