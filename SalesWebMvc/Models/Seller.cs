@@ -17,6 +17,10 @@ namespace SalesWebMvc2.Models
 
         public Department Department { get; set; }
 
+
+        // o tipo int não pode ser nulo
+        public int DepartmentId { get; set; }
+
         public ICollection<SalesRecord> Sales = new List<SalesRecord>();
 
         public Seller()
