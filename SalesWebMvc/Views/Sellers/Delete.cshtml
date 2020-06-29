@@ -1,0 +1,52 @@
+﻿@model SalesWebMvc2.Models.Seller;
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Are your sure you want to delete this?</h3>
+
+<div>
+    <dl>
+
+        <dt>
+            @Html.DisplayNameFor(p => p.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(p => p.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(p => p.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(p => p.BirthDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(p => p.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(p => p.BaseSalary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(p => p.BaseSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(p => p.Name)
+        </dd>
+
+    </dl>
+        <form asp-action="Delete">
+            <!--o asp for "Id vai passar no submit o id do vendedor"-->
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index">Back to List</a>
+
+
+      </form>
+
+</div>
