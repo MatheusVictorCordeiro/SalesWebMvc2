@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using SalesWebMvc2.Models;
 using SalesWebMvc2.Models.ViewModels;
 using SalesWebMvc2.Services;
@@ -41,12 +43,14 @@ namespace SalesWebMvc2.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não foi fornecido" });
             }
             var obj = _sellerService.FindById(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
 
             }
             return View(obj);
@@ -83,13 +87,15 @@ namespace SalesWebMvc2.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" }); ;
             }
 
             var obj = _sellerService.FindById(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             return View(obj);
         }
@@ -98,12 +104,14 @@ namespace SalesWebMvc2.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" }); ;
             }
             var obj = _sellerService.FindById(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                //vamos chamar a função Erro(), pra passar a mensagem que a funçao Error espera , criamos um objeto anonimo
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             List<Department> departments = _departmentService.FindAll();
             SellerFormViewModel viewModel = new SellerFormViewModel { Departments = departments, Seller = obj };
@@ -116,22 +124,38 @@ namespace SalesWebMvc2.Controllers
         {
             if (id != seller.Id)
             {
-                return BadRequest();
+                
+                return RedirectToAction(nameof(Error), new { message = "Id não corresponde" });
             }
             try
             {
                 _sellerService.Update(seller);
               return  RedirectToAction(nameof(Index));
-            }catch(NotFoundException)
+
+                //vamos usar o super tipo da exceção, dae ela serve para a DbConcurrencyException e NotFoundException
+            }catch(ApplicationException e)
             {
-                return NotFound();
+                //nesse caso vamos usar a mensagem da exceção.
+                return RedirectToAction(nameof(Error), new { message = e.Message });
 
             }
-            catch (DbConcurrencyException)
-            {
-                return BadRequest();
-            }
+            
 
+        }
+
+        //essa ação é para ir para a pagina de erro
+        public IActionResult Error(String message)
+        {
+
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                //macete do framework pra pegar o id interno da requisição
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+
+            return View(viewModel);
         }
 
     }

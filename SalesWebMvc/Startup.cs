@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using SalesWebMvc2.Data;
 using SalesWebMvc2.Services;
 
-namespace SalesWebMvc
+namespace SalesWebMvc2
 {
     public class Startup
     {
