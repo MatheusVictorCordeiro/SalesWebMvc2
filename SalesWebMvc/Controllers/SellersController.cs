@@ -64,7 +64,11 @@ namespace SalesWebMvc2.Controllers
         public IActionResult Create(Seller seller)
 
         {
-
+            //essa validação na controladora é para caso o usuario desative o js, fazendo com que aquela validação na parte do cliente nao funcione
+            if (!ModelState.IsValid)
+            {
+                return View(seller);
+            }
             // chamamos o service para salvar no banco de dados, e depois retornamos para a view index para mostrar a lista de vendendores.
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
@@ -122,6 +126,13 @@ namespace SalesWebMvc2.Controllers
         [HttpPost]
         public IActionResult Edit(int? id, Seller seller)
         {
+
+            //essa validação na controladora é para caso o usuario desative o js, fazendo com que aquela validação na parte do cliente nao funcione
+            if (!ModelState.IsValid)
+            {
+                return View(seller);
+            }
+
             if (id != seller.Id)
             {
                 
