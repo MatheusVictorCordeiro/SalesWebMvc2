@@ -83,10 +83,13 @@ namespace SalesWebMvc2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-
+            try { 
             await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
-
+                }catch(IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         //usa a mesma logica do delete metodo get, vai buscar pra ver se o vendedor existe
