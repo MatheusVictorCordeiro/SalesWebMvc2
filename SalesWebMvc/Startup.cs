@@ -52,13 +52,13 @@ namespace SalesWebMvc2
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,SeedingService seedingService)
         {
-            //para configurar o padrão de configuração, nesse caso o brasileiro.
-            var ptBR = new CultureInfo("pt-BR");
+            //para configurar o padrão de configuração, nesse caso o americano.
+            var enUS = new CultureInfo("en-US");
             var localizationOptions = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture(ptBR),
-                SupportedCultures = new List<CultureInfo> { ptBR },
-                SupportedUICultures = new List<CultureInfo> { ptBR }
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo> { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS }
             };
             app.UseRequestLocalization(localizationOptions);
 
