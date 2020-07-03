@@ -1,4 +1,5 @@
-﻿using SalesWebMvc2.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesWebMvc2.Data;
 using SalesWebMvc2.Models;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace SalesWebMvc2.Services
             _context = context;
         }
 
-
-        public List<Department> FindAll()
+        //transformar para assincrono, ou seja, para a aplicação não ficar bloqueada enquanto é feita a consulta ao banco de dados.
+        // temos que renomear o FindAll para FindAllAsync, é um padrão adotado na linguagem.Task é um objeto que encapsula o processamento assincromo
+        //o ToList é sincrono, temos que usar o ToListAsync para chamadas assincronas
+        public async Task<List<Department>> FindAllAsync()
         {
             //o Order by é usado para ordenar a lista
-            return _context.Department.OrderBy(p => p.Name).ToList();
+            return await _context.Department.OrderBy(p => p.Name).ToListAsync();
 
         }
     }
